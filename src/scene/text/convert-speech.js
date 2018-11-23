@@ -1,7 +1,6 @@
 export function convertSpeechArrayToTextLineArray(array, userOptions = {}) {
   //Defaults
   const options = {
-    playerTeamId: "unknown",
     defaultTextColor: "#000", //The color of text when not explicitly defined by @@color_@@ prefix
     ...userOptions
   };
@@ -34,20 +33,6 @@ export function convertSpeechArrayToTextLineArray(array, userOptions = {}) {
       if (segment.match(/^@@color_/)) {
         let extract = segment.match(/@@(.*)@@/).pop();
         color = extract.replace("color_", ""); //grab whatever comes after the `color_...` (expecting a hex, or a preset name)
-
-        //Feature: variable names for colors! Have presets that decide the color.
-        //This is important for one piece of text having multiple contexts depending on the reader. (EX: team colors)
-        //Potentially replace COLOR variable name `COLORVAR` with an actual hex.
-
-        //Case 1: team name. Check if the user is on this team (playerTeam provided by options.playerTeamId)
-        if (color.match(/COLORVAR_NAME_FROM_TEAM::/)) {
-          const teamId = color.replace("COLORVAR_NAME_FROM_TEAM::", "");
-          color =
-            teamId === options.playerTeamId
-              ? "#4A90E2" //Friend Blue
-              : "#FC304A"; //Enemy Red
-        }
-        //
 
         segment = segment.replace(`@@${extract}@@`, "");
       }

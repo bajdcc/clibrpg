@@ -1,5 +1,6 @@
 import React from "react";
 import {Modal, Button, Alert, Input, Icon, message} from "antd";
+import audioManager from "../../audio/manager";
 
 class IntroInput extends React.Component {
   constructor(props) {
@@ -28,6 +29,7 @@ class IntroInput extends React.Component {
   }
 
   showModal() {
+    audioManager.playSfx("sfx_ring");
     this.setState({
       visible: true,
     });

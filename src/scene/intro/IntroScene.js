@@ -50,10 +50,12 @@ class IntroScene extends React.Component {
   getIntroText() {
     return [
       "你好！",
-      "@@pause_300@@",
-      "欢迎来到CC RPG WORLD！",
-      "[FAST]版本 0.1！",
-      "@@pause_300@@",
+      "@@pause_1000@@",
+      "欢迎来到",
+      "@@color_yellow@@CC RPG WORLD！",
+      "@@pause_1000@@",
+      "版本 0.1！",
+      "@@pause_100@@",
     ];
   }
 
@@ -108,8 +110,10 @@ class IntroScene extends React.Component {
       const introText = convertSpeechArrayToTextLineArray(
         [
           "太棒了！",
-          "@@pause_300@@",
-          `欢迎光临！${this.state.nameFromUser}！`
+          "@@pause_1000@@",
+          "欢迎光临！",
+          `@@color_yellow@@${this.state.nameFromUser}`,
+          "！",
         ],
         {defaultTextColor: "#fff"}
       );

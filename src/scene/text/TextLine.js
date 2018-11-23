@@ -1,4 +1,5 @@
 import React from "react";
+import audioManager from "../../audio/manager";
 
 class TextLine extends React.Component {
   constructor(props) {
@@ -57,6 +58,14 @@ class TextLine extends React.Component {
           () => {
             //There is at least anotehr character in the text line...
             if (nextIndex < this.props.lineData.length - 1) {
+              //Play sound!
+              //TODO: Should this SFX be passed in? So we have options?
+              if (this.props.lineData[nextIndex].char !== " ") {
+                //don't play on space characters
+                //sfxTypeBlip.play();
+                audioManager.playSfx("sfx_typeBlip");
+              }
+
               //Call again with updated time delay
               const msToNextChar = this.props.lineData[nextIndex].msToNextChar;
               this.revealNext(Date.now() + msToNextChar);
