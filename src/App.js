@@ -6,15 +6,9 @@ import NormalScene from "./scene/normal/NormalScene";
 import DefaultScene from "./scene/default/DefaultScene";
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showIntro: true
-    };
-  }
 
   render() {
-    if (this.state.showIntro) {
+    if (this.props.scene === "intro") {
       return (
         <Scene>
           <IntroScene/>
@@ -22,7 +16,7 @@ class App extends Component {
       );
     }
 
-    if (this.state.scene === "normal")
+    if (this.props.scene === "normal")
       return (
         <Scene>
           <NormalScene/>

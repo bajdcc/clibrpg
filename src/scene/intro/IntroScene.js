@@ -147,7 +147,7 @@ class IntroScene extends React.Component {
     if (this.state.step === "wait") {
       const introText = convertSpeechArrayToTextLineArray(
         [
-          "",
+          "[CRAWL]Loading...",
         ],
         {defaultTextColor: "#fff"}
       );
@@ -156,9 +156,13 @@ class IntroScene extends React.Component {
         <IntroTextLine
           key="5"
           text={introText}
-          onTextComplete={this.setNextStep.bind(this, "wait")}
+          onTextComplete={this.setNextStep.bind(this, "over")}
         />
       );
+    }
+
+    if (this.state.step === "over") {
+      this.exitIntro();
     }
 
     return null;
@@ -192,9 +196,13 @@ class IntroScene extends React.Component {
         <Row type="flex" justify="space-around" align="middle">
           <Col style={style}>
             <div style={contentStyle}>
-              <IntroLaptop isLowered={this.state.isLaptopLowered}>
-                {this.renderContent()}
-              </IntroLaptop>
+              {
+                !this.state.isLaptopLowered ? (
+                  <IntroLaptop>
+                    {this.renderContent()}
+                  </IntroLaptop>
+                ) : null
+              }
             </div>
             {this.renderNameModal()}
           </Col>

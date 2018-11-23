@@ -2,14 +2,6 @@ import React from "react";
 import {connect} from "react-redux";
 
 class IntroLaptop extends React.Component {
-  getTranslateValue() {
-    if (this.props.isLowered) {
-      return `translate3d(0,24em,0)`;
-    }
-
-    // const {vH} = this.props;
-    return `translate3d(0,0,0)`;
-  }
 
   getMobileStyle() {
     const {vH} = this.props;
@@ -47,9 +39,6 @@ class IntroLaptop extends React.Component {
       position: "relative",
       zIndex: 3,
 
-      //Need to control translate with transition
-      transform: this.getTranslateValue(),
-      transition: "transform 0.5s",
       backgroundColor: "#000",
       backgroundRepeat: "no-repeat",
       backgroundSize: "100%",

@@ -5,7 +5,7 @@ class NormalScene extends React.Component {
 
   render() {
     return (
-      <h1>Default Scene</h1>
+      <h1>Normal Scene</h1>
     );
   }
 }
