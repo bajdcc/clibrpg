@@ -36,7 +36,7 @@ class Scene extends React.Component {
     if (windowHeightInRatioFromWidth > windowHeight) {
       // console.warn('cant fit!');
       return {
-        width: Math.round(windowHeight * 1.77), //get 16:9 aspect ratio from height
+        width: Math.round(windowHeight * 16.0 / 9.0), //get 16:9 aspect ratio from height
         height: windowHeight,
         mode: "landscape"
       };
@@ -90,6 +90,7 @@ class Scene extends React.Component {
 export default connect((state, props) => {
   return {
     vW: state.global.vW,
+    vH: state.global.vH,
     viewportMode: state.global.viewportMode,
     viewportWidth: state.global.viewportWidth,
     viewportHeight: state.global.viewportHeight

@@ -6,6 +6,7 @@ import IntroTextLine from "./IntroTextLine";
 import IntroOverlay from "./IntroOverlay";
 import IntroLaptop from "./IntroLaptop";
 import IntroInput from "./IntroInput";
+import {Row, Col} from "antd";
 
 class IntroScene extends React.Component {
   constructor(props) {
@@ -61,7 +62,7 @@ class IntroScene extends React.Component {
       return {};
     }
     return {
-      width: "40em",
+      width: "100%",
       margin: "0 auto"
     };
   }
@@ -173,40 +174,27 @@ class IntroScene extends React.Component {
   render() {
     const style = {
       fontSize: this.props.viewportMode === "portrait" ? "0.8em" : "0.5em", //mobile, desktop
-      height: "100%"
     };
     const contentStyle = {
-      height: "100%",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "space-between",
       ...this.getDesktopWrap()
-    };
-    const spaceholder = {
-      flex: "1",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "space-around"
     };
 
     return (
-      <div style={{height: "100%"}}>
+      <div>
         <IntroOverlay
           isOpaque={this.state.isOverlayOpaque}
           onTransitionComplete={this.handleOverlayDone.bind(this)}
         />
-        <div style={style} className="menu-texture">
-          <div style={contentStyle}>
-            <div style={spaceholder}>
+        <Row type="flex" justify="space-around" align="middle">
+          <Col style={style}>
+            <div style={contentStyle}>
+              <IntroLaptop isLowered={this.state.isLaptopLowered}>
+                {this.renderContent()}
+              </IntroLaptop>
             </div>
-            <IntroLaptop isLowered={this.state.isLaptopLowered}>
-              {this.renderContent()}
-            </IntroLaptop>
-            <div style={spaceholder}>
-            </div>
-          </div>
-          {this.renderNameModal()}
-        </div>
+            {this.renderNameModal()}
+          </Col>
+        </Row>
       </div>
     );
   }

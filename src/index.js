@@ -5,13 +5,19 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import store from "./store/store";
 import {Provider} from "react-redux";
+import {Layout} from "antd";
+const {Content} = Layout;
 
 /* Absolute root of the app */
 class RootComponent extends React.Component {
   render() {
     return (
       <Provider store={this.props.store}>
-        <App/>
+        <Layout>
+          <Content>
+            <App/>
+          </Content>
+        </Layout>
       </Provider>
     );
   }

@@ -4,9 +4,13 @@
 
 ## 介绍
 
-使用技术：React、PixiJS（计划）。
+使用技术：React、Ant Design、PixiJS（计划）。
 
 原始渣代码已经有了：[bajdcc - MyGame](https://bajdcc.github.io/html/MyGame.html)，打算用React重写它并实现在线功能。
+
+## 进度
+
+- [x] 初始加载文字，输入名字
 
 ## 截图
 

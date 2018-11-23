@@ -23,8 +23,8 @@ class IntroLaptop extends React.Component {
   getDesktopStyle() {
     const {vH, vW} = this.props;
     return {
-      width: "100%",
-      height: vH * 37,
+      width: vW * 88,
+      height: vH * 88,
       bottom: 0,
       left: 0,
       paddingTop: vW * 3,
