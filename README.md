@@ -11,6 +11,7 @@
 ## 进度
 
 - [x] 初始加载文字，输入名字，打字音效
+- [x] 添加生命值和经验值
 
 ## 截图
 
@@ -26,3 +27,4 @@
 1. [React](https://github.com/facebook/react)
 2. [Battle 5](https://thedangercrew.com/media)
 3. [bajdcc - MyGame](https://bajdcc.github.io/html/MyGame.html)
+4. [Ant Design](https://github.com/ant-design/ant-design)

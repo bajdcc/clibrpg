@@ -1,11 +1,21 @@
 import React from "react";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
+import {Layout} from 'antd';
+import UIPlayerInfo from "./UIPlayerInfo";
+
+const {Content} = Layout;
 
 class NormalScene extends React.Component {
 
   render() {
     return (
-      <h1>Normal Scene</h1>
+      <div>
+        <Layout>
+          <Content style={{padding: "10px"}}>
+            <UIPlayerInfo/>
+          </Content>
+        </Layout>
+      </div>
     );
   }
 }

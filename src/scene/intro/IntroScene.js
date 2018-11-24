@@ -7,6 +7,7 @@ import IntroOverlay from "./IntroOverlay";
 import IntroLaptop from "./IntroLaptop";
 import IntroInput from "./IntroInput";
 import {Row, Col} from "antd";
+import {setPlayerValue} from "../../store/player-actions";
 
 class IntroScene extends React.Component {
   constructor(props) {
@@ -38,6 +39,9 @@ class IntroScene extends React.Component {
     this.setState({
       step: "nice-to-meet-you",
       nameFromUser: nameFromUserInput
+    });
+    setPlayerValue({
+      name: nameFromUserInput
     });
   }
 
@@ -147,7 +151,7 @@ class IntroScene extends React.Component {
     if (this.state.step === "wait") {
       const introText = convertSpeechArrayToTextLineArray(
         [
-          "[CRAWL]Loading...",
+          "Loading...",
         ],
         {defaultTextColor: "#fff"}
       );
