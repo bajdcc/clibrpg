@@ -1,7 +1,8 @@
 import React from "react";
 import {connect} from "react-redux";
-import {Layout} from 'antd';
+import {Layout, Row} from 'antd';
 import UIPlayerInfo from "./UIPlayerInfo";
+import UIMapInfo from "./UIMapInfo";
 
 const {Content} = Layout;
 
@@ -12,7 +13,10 @@ class NormalScene extends React.Component {
       <div>
         <Layout>
           <Content style={{padding: "10px"}}>
-            <UIPlayerInfo/>
+            <Row>
+              <UIPlayerInfo/>
+              <UIMapInfo/>
+            </Row>
           </Content>
         </Layout>
       </div>
