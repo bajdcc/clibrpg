@@ -6,6 +6,7 @@ import UIExpBar from "./UIExpBar";
 import UIAttrBar from "./UIAttrBar";
 import UIMapBar from "./UIMapBar";
 import UIAnimalBar from "./UIAnimalBar";
+import UIPeopleBar from "./UIPeopleBar";
 
 class UIPlayerInfo extends React.Component {
 
@@ -21,6 +22,7 @@ class UIPlayerInfo extends React.Component {
           title={`当前地图 -- <${this.getMapName()}>`}
         >
           <UIMapBar/>
+          <UIPeopleBar/>
           <UIAnimalBar/>
         </Card>
       </Col>

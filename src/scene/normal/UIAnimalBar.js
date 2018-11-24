@@ -28,6 +28,8 @@ class UIAnimalBar extends React.Component {
 
   render() {
     const {maping, map, animal} = this.props;
+    if (map[maping][3].length === 0)
+      return null;
     const ids = _(map[maping][3]).map((id) => {
       const ani = animal[id];
       return (
