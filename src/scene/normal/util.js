@@ -26,3 +26,22 @@ export function applyGoodEffect(player, good) {
     });
   }
 }
+
+export function randomN() {
+  const rand = (Math.floor(Math.random() * 100));
+  if (rand >= 0 && rand < 50) {
+    return 1;
+  }
+  if (rand >= 50 && rand < 80) {
+    return 2;
+  }
+  if (rand >= 80 && rand < 95) {
+    return 3;
+  }
+  if (rand >= 95 && rand <= 98) {
+    return 5;
+  }
+  if (rand > 98 && rand <= 99) {
+    return 10;
+  }
+}

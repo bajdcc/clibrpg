@@ -7,7 +7,14 @@ class UIHealthBar extends React.Component {
 
   constructor(props) {
     super(props);
-    setTimeout(this.addBlood.bind(this), this.props.ADD_time);
+    this.state = {
+      addID: setTimeout(this.addBlood.bind(this), this.props.ADD_time)
+    };
+  }
+
+  componentWillUnmount() {
+    if (this.state.addID >= 0)
+      clearTimeout(this.state.addID);
   }
 
   addBlood() {
@@ -23,7 +30,9 @@ class UIHealthBar extends React.Component {
         useblood: useblood + this.props.ADD_blood
       });
     }
-    setTimeout(this.addBlood.bind(this), this.props.ADD_time);
+    this.setState({
+      addID: setTimeout(this.addBlood.bind(this), this.props.ADD_time)
+    });
   }
 
   render() {

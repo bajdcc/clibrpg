@@ -20,9 +20,9 @@ class UIFightLogInfo extends React.Component {
   }
 
   fightList() {
-    const {fightL} = this.props;console.log(fightL);
-    return _.chain(fightL).map((a) =>
-      <Timeline.Item color={this.fightColor(a[0])}>
+    const {fightL} = this.props;
+    return _.chain(fightL).map((a, idx) =>
+      <Timeline.Item key={`fight_${idx}`} color={this.fightColor(a[0])}>
         {a[1]}
       </Timeline.Item>
     ).value();

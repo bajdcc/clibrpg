@@ -12,7 +12,7 @@ class UIPeopleBar extends React.Component {
   }
 
   conv(id, txt) {
-    return _(txt.split(/\n/)).map((a) => <p key={`people2_${id}`}>{a}</p>).value();
+    return _(txt.split(/\n/)).map((a, idx) => <p key={`people_${id}_${idx}`}>{a}</p>).value();
   }
 
   render() {

@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {Col, message, Popover, Radio, Row, Spin, Progress} from 'antd';
 import _ from 'lodash';
 import {setPlayerValue} from "../../store/player-actions";
-import {applyGoodEffect, goodTimes, goodTypes} from "./util";
+import {goodTimes, goodTypes} from "./util";
 
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
@@ -12,12 +12,68 @@ class UIGoodBar extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      hidden: false,
-      obj: null,
-      count: 0,
-      all: 100,
-    };
+    const {good} = this.props.player.states;
+    if (good != null) {
+      if (good.obj == null) {
+        return;
+      }
+      const {obj, count, all} = good;
+      this.state = {
+        obj: obj,
+        count: count,
+        all: all,
+        goodID: setTimeout(this.rec2.bind(this), 1000)
+      };
+    } else {
+      this.state = {
+        hidden: false,
+        obj: null,
+        count: 0,
+        all: 100,
+        goodID: -1,
+      };
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.state.goodID >= 0)
+      clearTimeout(this.state.goodID);
+  }
+
+  rec1() {
+    const {count, all} = this.state;
+    this.setState({
+      count: count + 10,
+    });
+    if (count <= all) {
+      this.setState({
+        goodID: setTimeout(this.rec1.bind(this), 100)
+      });
+    } else {
+      this.setState({
+        hidden: false,
+        count: 0,
+        all: 100,
+      });
+    }
+  }
+
+  rec2() {
+    const {count, all} = this.state;
+    this.setState({
+      count: count + 10,
+    });
+    if (count + 10 <= all && this.props.player.useblood > 0) {
+      this.setState({
+        goodID: setTimeout(this.rec2.bind(this), 100)
+      });
+    } else {
+      this.setState({
+        hidden: false,
+        count: 0,
+        all: 100,
+      });
+    }
   }
 
   onChange(e) {
@@ -34,60 +90,27 @@ class UIGoodBar extends React.Component {
     });
     message.success(`购买<${good[2]}>成功！`);
     if (good[5] === 0) {
-      setTimeout(() => {
-        this.setState({
-          hidden: false,
-          count: 0,
-          all: 100,
-        });
-      }, 1000);
-      setTimeout(function rec() {
-        const {count, all} = this.state;
-        this.setState({
-          count: count + 10,
-        });
-        if (count <= all) {
-          setTimeout(rec.bind(this), 100);
-        }
-      }.bind(this), 100);
+      this.setState({
+        goodID: setTimeout(this.rec1.bind(this), 100)
+      });
       message.success(`${goodTypes(good[1])}增加${good[4]}！`);
     } else {
       this.setState({
-        obj: good,
         count: 0,
         all: 100 * good[5],
       });
-      setTimeout(function rec() {
-        const {count, all} = this.state;
-        this.setState({
-          count: count + 10,
-        });
-        if (count % 100 === 0)
-          applyGoodEffect(this.props.player, this.state.obj);
-        setPlayerValue({
-          states: {
-            good: {
-              obj: this.state.obj,
-              all: this.state.all,
-              count: this.state.count,
-            }
-          }
-        });
-        if (count <= all) {
-          setTimeout(rec.bind(this), 100);
-        } else {
-          this.setState({
-            hidden: false,
+      setPlayerValue({
+        states: {
+          good: {
+            obj: good,
             count: 0,
-            all: 100,
-          });
-          setPlayerValue({
-            states: {
-              good: null
-            }
-          });
+            all: 100 * good[5],
+          }
         }
-      }.bind(this), 100);
+      });
+      this.setState({
+        goodID: setTimeout(this.rec2.bind(this), 100)
+      });
     }
   }
 

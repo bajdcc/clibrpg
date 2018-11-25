@@ -2,6 +2,7 @@ import React from "react";
 import {connect} from "react-redux";
 import {Row, Col, Progress, message} from 'antd';
 import {setPlayerValue} from "../../store/player-actions";
+import {randomN} from "./util";
 
 class UIAttrBar extends React.Component {
 
@@ -13,9 +14,22 @@ class UIAttrBar extends React.Component {
       ani: ani,
       blood: ani[2],
       magic: ani[7],
+      magicID: -1,
+      playerID: -1,
+      animalID: -1,
     };
     this.addFightLog(1, `<${player.name}>与<${ani[0]}>开始交战！`);
     setTimeout(this.combat.bind(this), 100);
+  }
+
+  componentWillUnmount() {
+    const {magicID, playerID, animalID} = this.state;
+    if (magicID >= 0)
+      clearTimeout(magicID);
+    if (playerID >= 0)
+      clearTimeout(playerID);
+    if (animalID >= 0)
+      clearTimeout(animalID);
   }
 
   combat() {
@@ -23,7 +37,9 @@ class UIAttrBar extends React.Component {
     const ani = animal[player.fightA];
     this.addFightLog(1,
       `<${player.name}>将在${ani[7]}秒内受到<${ani[0]}>${ani[7] * ani[8]}点魔法伤害！`);
-    setTimeout(this.magicCombat.bind(this), 1000);
+    this.setState({
+      magicID: setTimeout(this.magicCombat.bind(this), 1000)
+    });
     setTimeout(this.physicalCombat.bind(this), 1000);
   }
 
@@ -31,6 +47,8 @@ class UIAttrBar extends React.Component {
     const {player, animal} = this.props;
     const ani = animal[player.fightA];
     if (this.state.magic > 0) {
+      if (player.useblood <= ani[8])
+        return;
       setPlayerValue({
         useblood: player.useblood - ani[8]
       });
@@ -39,12 +57,16 @@ class UIAttrBar extends React.Component {
       this.setState({
         magic: this.state.magic - 1
       });
-      setTimeout(this.magicCombat.bind(this), 1000);
+      this.setState({
+        magicID: setTimeout(this.magicCombat.bind(this), 1000)
+      });
     }
   }
 
   physicalCombat() {
-    setTimeout(this.playerCombat.bind(this), 100);
+    this.setState({
+      playerID: setTimeout(this.playerCombat.bind(this), 100)
+    });
   }
 
   playerCombat() {
@@ -55,8 +77,10 @@ class UIAttrBar extends React.Component {
     this.setState({
       blood: this.state.blood - player.att
     });
-    if (!this.checkCombatFinish())
-      setTimeout(this.animalCombat.bind(this), 1000);
+    if (player.useblood > 0 && !this.checkCombatFinish())
+      this.setState({
+        animalID: setTimeout(this.animalCombat.bind(this), 1000)
+      });
   }
 
   animalCombat() {
@@ -67,7 +91,10 @@ class UIAttrBar extends React.Component {
     setPlayerValue({
       useblood: player.useblood - ani[3]
     });
-    setTimeout(this.playerCombat.bind(this), 1000);
+    if (player.useblood > ani[3])
+      this.setState({
+        playerID: setTimeout(this.playerCombat.bind(this), 1000)
+      });
   }
 
   checkCombatFinish() {
@@ -81,18 +108,23 @@ class UIAttrBar extends React.Component {
   combatOver() {
     const {player, animal} = this.props;
     const ani = animal[player.fightA];
+    const money = ani[5] + Math.floor(randomN() / 2);
+    const exp = ani[6] + Math.floor(randomN() / 2);
     const logs = [
       `<${player.name}>打败了<${ani[0]}>！`,
-      `<${player.name}>获得了<$${5}金钱>和<${ani[6]}经验>！`
+      `<${player.name}>获得了<$${money}金钱>和<${exp}经验>！`
     ];
     this.addFightLog(0, logs[0]);
     message.success(logs[0]);
     this.addFightLog(0, logs[1]);
+    message.success(logs[1]);
     setTimeout(() => {
       setPlayerValue({
         fightN: false,
         fightA: 0,
         fightL: [],
+        money: player.money + money,
+        exping: player.exping + exp,
       });
     }, 4000);
   }

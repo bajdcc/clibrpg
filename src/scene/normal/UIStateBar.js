@@ -2,9 +2,65 @@ import React from "react";
 import {connect} from "react-redux";
 import _ from "lodash";
 import {Col, Row, Button, Popover, Progress} from "antd";
-import {goodTimes, goodTypes} from "./util";
+import {applyGoodEffect, goodTimes, goodTypes} from "./util";
+import {setPlayerValue} from "../../store/player-actions";
 
 class UIStateBar extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      checkingID: setTimeout(this.checkingTimeout.bind(this), 1000),
+      goodID: -1,
+    };
+  }
+
+  componentWillUnmount() {
+    if (this.state.goodID >= 0)
+      clearTimeout(this.state.goodID);
+  }
+
+  checkingTimeout() {
+    if (this.props.player.useblood > 0) {
+      if (this.props.states.good != null && this.props.states.good.obj != null && this.state.goodID === -1) {
+        this.setState({
+          goodID: setTimeout(this.goodTimeout.bind(this), 100)
+        });
+      }
+      this.setState({
+        checkingID: setTimeout(this.checkingTimeout.bind(this), 1000)
+      });
+    }
+  }
+
+  goodTimeout() {
+    const {count, all, obj} = this.props.states.good;
+    if (count % 100 === 0)
+      applyGoodEffect(this.props.player, obj);
+    setPlayerValue({
+      states: {
+        good: {
+          obj: obj,
+          count: count + 10,
+          all: all,
+        }
+      }
+    });
+    if (count + 10 <= all) {
+      this.setState({
+        goodID: setTimeout(this.goodTimeout.bind(this), 100)
+      });
+    } else {
+      this.setState({
+        goodID: -1
+      });
+      setPlayerValue({
+        states: {
+          good: null
+        }
+      });
+    }
+  }
 
   goodState(id, s) {
     const good = s.obj;
@@ -65,6 +121,7 @@ class UIStateBar extends React.Component {
 
 export default connect((state, props) => {
   return {
+    player: state.player,
     states: state.player.states
   };
 })(UIStateBar);

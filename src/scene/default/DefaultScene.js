@@ -6,6 +6,8 @@ import {setPlayerValue} from "../../store/player-actions";
 import IntroOverlay from "../intro/IntroOverlay";
 import {Col, Row} from "antd";
 import IntroLaptop from "../intro/IntroLaptop";
+import {setGlobalValue} from "../../store/global-actions";
+import {setSettingsValue} from "../../store/settings-actions";
 
 class DefaultScene extends React.Component {
 
@@ -16,6 +18,9 @@ class DefaultScene extends React.Component {
       isLaptopLowered: false,
       step: "fade-in",
     };
+    setGlobalValue({
+      scene: "default"
+    });
   }
 
   componentDidMount() {
@@ -51,8 +56,14 @@ class DefaultScene extends React.Component {
       states: {},         //状态
     };
     def.useblood = def.blood;
-    def.exped = def.exped[def.level];
+    def.exped = this.props.settings.exped[def.level];
     setPlayerValue(def);
+    setSettingsValue({
+      ADD_blood: 1
+    });
+    setGlobalValue({
+      scene: "normal"
+    });
   }
 
   renderContent() {
@@ -61,7 +72,7 @@ class DefaultScene extends React.Component {
         [
           "[CRAWL]游戏结束！",
           "[CRAWL]Game over.",
-          "[CRAWL]...",
+          "[CRAWL]......",
         ],
         {defaultTextColor: "#fff"}
       );
@@ -123,6 +134,7 @@ class DefaultScene extends React.Component {
 export default connect((state, props) => {
   return {
     player: state.player,
+    settings: state.settings,
     viewportMode: state.global.viewportMode,
   };
 })(DefaultScene);
