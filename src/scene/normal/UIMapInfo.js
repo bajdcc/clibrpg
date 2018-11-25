@@ -17,6 +17,7 @@ class UIPlayerInfo extends React.Component {
       <Col span={8}>
         <Card
           title={`当前地图 -- <${this.getMapName()}>`}
+          style={{height: "300px"}}
         >
           <UIMapBar/>
           <UIPeopleBar/>

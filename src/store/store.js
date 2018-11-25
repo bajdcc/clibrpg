@@ -16,9 +16,9 @@ const data = {
     level: 1,           //等级
     exping: 0,          //当前经验
     exped: 0,           //当前经验上限
-    money: 200,           //金钱
+    money: 0,           //金钱
     blood: 100,         //生命值上限
-    useblood: 100,      //生命值
+    useblood: 0,        //生命值
     att: 6,             //攻击
     def: 6,             //防御
     fightN: false,      //是否战斗状态
@@ -112,6 +112,7 @@ for (let i = 1; i <= data.settings.Uplevel; i++) {
   data.settings.exped[i] = i * (i + 1) * (i + 2) / 3;
 }
 
+data.player.useblood = data.player.blood;
 data.player.exped = data.settings.exped[data.player.level];
 
 const store = createStore(data);

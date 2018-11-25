@@ -1,18 +1,16 @@
 import React from "react";
 import {connect} from "react-redux";
 import {Card, Col} from 'antd';
-import UIGoodBar from "./UIGoodBar";
 
-class UIGoodInfo extends React.Component {
+class UIFightInfo extends React.Component {
 
   render() {
     return (
       <Col span={8}>
         <Card
-          title="商店"
+          title={`当前怪物 -- `}
           style={{height: "300px"}}
         >
-          <UIGoodBar/>
         </Card>
       </Col>
     );
@@ -22,4 +20,4 @@ class UIGoodInfo extends React.Component {
 export default connect((state, props) => {
   return {
   };
-})(UIGoodInfo);
+})(UIFightInfo);

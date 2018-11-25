@@ -4,6 +4,7 @@ import {Card, Col} from 'antd';
 import UIHealthBar from "./UIHealthBar";
 import UIExpBar from "./UIExpBar";
 import UIAttrBar from "./UIAttrBar";
+import UIStateBar from "./UIStateBar";
 
 class UIPlayerInfo extends React.Component {
 
@@ -12,10 +13,12 @@ class UIPlayerInfo extends React.Component {
       <Col span={8}>
         <Card
           title={`人物信息 -- <${this.props.userName}>`}
+          style={{height: "300px"}}
         >
           <UIAttrBar/>
           <UIHealthBar/>
           <UIExpBar/>
+          <UIStateBar/>
         </Card>
       </Col>
     );

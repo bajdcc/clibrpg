@@ -4,6 +4,7 @@ import {Layout, Row} from 'antd';
 import UIPlayerInfo from "./UIPlayerInfo";
 import UIMapInfo from "./UIMapInfo";
 import UIGoodInfo from "./UIGoodInfo";
+import UIFightInfo from "./UIFightInfo";
 
 const {Content} = Layout;
 
@@ -16,7 +17,9 @@ class NormalScene extends React.Component {
           <Content style={{padding: "10px"}}>
             <Row>
               <UIPlayerInfo/>
-              <UIMapInfo/>
+              {
+                this.props.fightN ? <UIFightInfo/> : <UIMapInfo/>
+              }
               <UIGoodInfo/>
             </Row>
           </Content>
@@ -27,5 +30,7 @@ class NormalScene extends React.Component {
 }
 
 export default connect((state, props) => {
-  return {};
+  return {
+    fightN: state.player.fightN,
+  };
 })(NormalScene);
