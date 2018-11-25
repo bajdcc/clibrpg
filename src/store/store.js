@@ -25,8 +25,10 @@ const data = {
     fightA: 0,          //怪物战斗编号
     fightL: [],         //战斗情况
     maping: 0,          //当前地图,
-    winN: [],           //杀死怪物次数
+    winN: {},           //杀死怪物次数
     states: {},         //状态
+    role: -1,           //任务
+    roles: [],          //任务进度
   },
   settings: {
     Uplevel: 100,       //等级上限
@@ -110,11 +112,12 @@ data.settings.goods = [
 
 //经验值计算
 for (let i = 1; i <= data.settings.Uplevel; i++) {
-  data.settings.exped[i] = i * (i + 1) * (i + 2) / 3;
+  data.settings.exped[i] = 3 + i * (i + 1) * (i + 2) / 3;
 }
 
 data.player.useblood = data.player.blood;
 data.player.exped = data.settings.exped[data.player.level];
+data.player.roles = data.settings.role.map(() => 0);
 
 const store = createStore(data);
 
