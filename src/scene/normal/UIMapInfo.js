@@ -20,7 +20,9 @@ class UIPlayerInfo extends React.Component {
           style={{height: "300px"}}
         >
           <UIMapBar/>
+          <br/>
           <UIPeopleBar/>
+          <br/>
           <UIAnimalBar/>
         </Card>
       </Col>

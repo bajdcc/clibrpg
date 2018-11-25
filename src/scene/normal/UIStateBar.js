@@ -19,7 +19,7 @@ class UIStateBar extends React.Component {
       </div>
     );
     return (
-      <Popover key={id} content={info} title={`状态 -- <${good[2]}>`}>
+      <Popover key={`state_${id}`} content={info} title={`状态 -- <${good[2]}>`}>
         <Button>
           {good[2]}
         </Button>

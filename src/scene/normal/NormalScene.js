@@ -5,6 +5,7 @@ import UIPlayerInfo from "./UIPlayerInfo";
 import UIMapInfo from "./UIMapInfo";
 import UIGoodInfo from "./UIGoodInfo";
 import UIFightInfo from "./UIFightInfo";
+import UIFightLogInfo from "./UIFightLogInfo";
 
 const {Content} = Layout;
 
@@ -18,9 +19,11 @@ class NormalScene extends React.Component {
             <Row>
               <UIPlayerInfo/>
               {
-                this.props.fightN ? <UIFightInfo/> : <UIMapInfo/>
+                this.props.fightN ? <UIFightLogInfo/> : <UIMapInfo/>
               }
-              <UIGoodInfo/>
+              {
+                this.props.fightN ? <UIFightInfo/> : <UIGoodInfo/>
+              }
             </Row>
           </Content>
         </Layout>

@@ -18,7 +18,7 @@ class UIMapBar extends React.Component {
   render() {
     const {maping, map} = this.props;
     const ids = _(map[maping][2]).map((id) => {
-      return <RadioButton key={id} value={id}>{map[id][1]}</RadioButton>
+      return <RadioButton key={`map_${id}`} value={id}>{map[id][1]}</RadioButton>
     }).value();
     return (
       <div>

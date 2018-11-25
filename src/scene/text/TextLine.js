@@ -93,7 +93,7 @@ class TextLine extends React.Component {
         fontSize: "24px"
       };
       return (
-        <span key={i} style={style}>
+        <span key={`txtline_${i}`} style={style}>
           {characterModel.char}
         </span>
       );

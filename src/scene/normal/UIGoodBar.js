@@ -109,9 +109,9 @@ class UIGoodBar extends React.Component {
       const id = good[0];
       return (
         money < good[3] ?
-          <RadioButton disabled={true} value={id}>{good[2]}</RadioButton>
+          <RadioButton key={`good_${id}`} disabled={true} value={id}>{good[2]}</RadioButton>
           :
-          <Popover key={id} content={this.conv(good)} title={`物品信息 -- <${good[2]}>`}>
+          <Popover key={`good_${id}`} content={this.conv(good)} title={`物品信息 -- <${good[2]}>`}>
             <RadioButton value={id}>{good[2]}</RadioButton>
           </Popover>
       )

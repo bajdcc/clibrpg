@@ -2,6 +2,7 @@ import React from "react";
 import {connect} from "react-redux";
 import {Col, Popover, Radio, Row} from 'antd';
 import _ from 'lodash';
+import {setPlayerValue} from "../../store/player-actions";
 
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
@@ -9,6 +10,11 @@ const RadioGroup = Radio.Group;
 class UIAnimalBar extends React.Component {
 
   onChange(e) {
+    const id = e.target.value;
+    setPlayerValue({
+      fightN: true,
+      fightA: id,
+    });
   }
 
   info(id) {
@@ -16,7 +22,7 @@ class UIAnimalBar extends React.Component {
     const ani = animal[id];
     return (
       <div>
-        <Row><Col span={8}>属性：</Col><Col span={16}>{ani[1]}级{ani[9]}系</Col></Row>
+        <Row><Col span={8}>属性：</Col><Col span={16}>{ani[1]}级-{ani[9]}系</Col></Row>
         <Row><Col span={8}>攻击：</Col><Col span={16}>{ani[3]}</Col></Row>
         <Row><Col span={8}>防御：</Col><Col span={16}>{ani[4]}</Col></Row>
         <Row><Col span={8}>生命：</Col><Col span={16}>{ani[2]}</Col></Row>
@@ -33,7 +39,7 @@ class UIAnimalBar extends React.Component {
     const ids = _(map[maping][3]).map((id) => {
       const ani = animal[id];
       return (
-        <Popover key={id} content={this.info(id)} title={`怪物信息 - <${ani[0]}>`}>
+        <Popover key={`animal_${id}`} content={this.info(id)} title={`怪物信息 - <${ani[0]}>`}>
           <RadioButton value={id}>{ani[0]}</RadioButton>
         </Popover>
       )

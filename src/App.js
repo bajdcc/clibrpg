@@ -16,7 +16,7 @@ class App extends Component {
       );
     }
 
-    if (this.props.scene === "normal")
+    if (this.props.scene === "normal" && this.props.useblood > 0)
       return (
         <Scene>
           <NormalScene/>
@@ -33,6 +33,7 @@ class App extends Component {
 
 export default connect((state, props) => {
   return {
+    useblood: state.player.useblood,
     scene: state.global.scene,
   };
 })(App);
