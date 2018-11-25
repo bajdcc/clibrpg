@@ -11,8 +11,8 @@ class UIPeopleBar extends React.Component {
   onChange(e) {
   }
 
-  conv(txt) {
-    return _(txt.split(/\n/)).map((a) => <p>{a}</p>).value();
+  conv(id, txt) {
+    return _(txt.split(/\n/)).map((a) => <p key={id}>{a}</p>).value();
   }
 
   render() {
@@ -22,7 +22,7 @@ class UIPeopleBar extends React.Component {
     const ids = _(map[maping][4]).map((id) => {
       const peo = people[id];
       return (
-        <Popover key={id} content={this.conv(peo[4])} title={`<${peo[1]}> - <${peo[2]}>`}>
+        <Popover key={id} content={this.conv(id, peo[4])} title={`<${peo[1]}> - <${peo[2]}>`}>
           <RadioButton value={id}>{peo[2]}</RadioButton>
         </Popover>
       )
@@ -30,11 +30,9 @@ class UIPeopleBar extends React.Component {
     return (
       <div>
         <Row>
-          <Col>
+          <Col span={4}>
             NPC：
           </Col>
-        </Row>
-        <Row>
           <Col>
             <RadioGroup onChange={this.onChange.bind(this)}>
               {ids}

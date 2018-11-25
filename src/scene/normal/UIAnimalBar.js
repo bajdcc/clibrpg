@@ -41,11 +41,9 @@ class UIAnimalBar extends React.Component {
     return (
       <div>
         <Row>
-          <Col>
+          <Col span={4}>
             怪物：
           </Col>
-        </Row>
-        <Row>
           <Col>
             <RadioGroup onChange={this.onChange.bind(this)}>
               {ids}

@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import {Layout, Row} from 'antd';
 import UIPlayerInfo from "./UIPlayerInfo";
 import UIMapInfo from "./UIMapInfo";
+import UIGoodInfo from "./UIGoodInfo";
 
 const {Content} = Layout;
 
@@ -16,6 +17,7 @@ class NormalScene extends React.Component {
             <Row>
               <UIPlayerInfo/>
               <UIMapInfo/>
+              <UIGoodInfo/>
             </Row>
           </Content>
         </Layout>

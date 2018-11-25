@@ -1,9 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
-import {Card, Col, Row} from 'antd';
-import UIHealthBar from "./UIHealthBar";
-import UIExpBar from "./UIExpBar";
-import UIAttrBar from "./UIAttrBar";
+import {Card, Col} from 'antd';
 import UIMapBar from "./UIMapBar";
 import UIAnimalBar from "./UIAnimalBar";
 import UIPeopleBar from "./UIPeopleBar";
@@ -17,7 +14,7 @@ class UIPlayerInfo extends React.Component {
 
   render() {
     return (
-      <Col span={6}>
+      <Col span={8}>
         <Card
           title={`当前地图 -- <${this.getMapName()}>`}
         >
