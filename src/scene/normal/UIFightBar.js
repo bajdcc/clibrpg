@@ -1,6 +1,7 @@
 import React from "react";
 import {connect} from "react-redux";
 import {Row, Col, Progress, message} from 'antd';
+import _ from "lodash";
 import {setPlayerValue} from "../../store/player-actions";
 import {randomN} from "./util";
 
@@ -72,10 +73,15 @@ class UIAttrBar extends React.Component {
   playerCombat() {
     const {player, animal} = this.props;
     const ani = animal[player.fightA];
-    this.addFightLog(0,
-      `<${ani[0]}>受到<${player.name}>${player.att}点物理伤害！`);
+    const att = _.max([0, player.att + randomN() - ani[4]]);
+    if (att > 0)
+      this.addFightLog(0,
+        `<${ani[0]}>受到<${player.name}>${att}点物理伤害！`);
+    else
+      this.addFightLog(1,
+        `<${ani[0]}>成功躲过了<${player.name}>的攻击！`);
     this.setState({
-      blood: this.state.blood - player.att
+      blood: this.state.blood - att
     });
     if (player.useblood > 0 && !this.checkCombatFinish())
       this.setState({
@@ -86,12 +92,17 @@ class UIAttrBar extends React.Component {
   animalCombat() {
     const {player, animal} = this.props;
     const ani = animal[player.fightA];
-    this.addFightLog(2,
-      `<${player.name}>受到<${ani[0]}>${player.att}点物理伤害！`);
+    const att = _.max([0, ani[3] + randomN() - player.def]);
+    if (att > 0)
+      this.addFightLog(2,
+        `<${player.name}>受到<${ani[0]}>${att}点物理伤害！`);
+    else
+      this.addFightLog(1,
+        `<${player.name}>成功躲过了<${ani[0]}>的攻击！`);
     setPlayerValue({
-      useblood: player.useblood - ani[3]
+      useblood: player.useblood - att
     });
-    if (player.useblood > ani[3])
+    if (player.useblood > att)
       this.setState({
         playerID: setTimeout(this.playerCombat.bind(this), 1000)
       });
