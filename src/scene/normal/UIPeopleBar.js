@@ -66,10 +66,22 @@ class UIPeopleBar extends React.Component {
     });
   }
 
-  handleOk() {
+  initTaskData(task) {
+  }
+
+  handleTask() {
+    const {id} = this.state;
+    const r = this.props.role[id];
+    const cur = this.props.player.roles[id];
+    const task = r[cur];
     setPlayerValue({
-      role: this.state.id
+      role: id,
+      roleData: this.initTaskData(task)
     });
+  }
+
+  handleOk() {
+    this.handleTask();
     this.setState({
       visible: false,
     });
@@ -82,6 +94,28 @@ class UIPeopleBar extends React.Component {
       visible: false,
     });
     this.reload();
+  }
+
+  taskType(id) {
+    switch (id) {
+      case 0: return "打败怪物";
+      default: break;
+    }
+    return "task: unknown type";
+  }
+
+  taskInfo0(task) {
+    const [id, num] = task[5];
+    const ani = this.props.animal[id];
+    return `打败<${num}>只<${ani[0]}>`;
+  }
+
+  taskInfo(task) {
+    switch (task[0]) {
+      case 0: return this.taskInfo0(task);
+      default: break;
+    }
+    return "task: unknown info";
   }
 
   talk() {
@@ -103,6 +137,19 @@ class UIPeopleBar extends React.Component {
                cancelText={task[4]}>
           <p>
             {task[2]}
+          </p>
+          <br/>
+          <br/>
+          <br/>
+          <hr/>
+          <p>
+            任务类型：<b>{this.taskType(task[0])}</b>
+          </p>
+          <p>
+            任务目标：<b>{this.taskInfo(task)}</b>
+          </p>
+          <p>
+            任务奖励：<b>&lt;${task[8]}&gt;金钱</b>和<b>&lt;{task[9]}&gt;经验</b>
           </p>
         </Modal>);
     }
@@ -162,6 +209,7 @@ export default connect((state, props) => {
     player: state.player,
     map: state.settings.map,
     role: state.settings.role,
+    animal: state.settings.animal,
     people: state.settings.people,
   };
 })(UIPeopleBar);

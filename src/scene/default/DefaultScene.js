@@ -38,6 +38,7 @@ class DefaultScene extends React.Component {
   }
 
   over() {
+    const settings = this.props.settings;
     const def = {
       name: "匿名玩家",   //名字
       level: 1,           //等级
@@ -54,10 +55,14 @@ class DefaultScene extends React.Component {
       maping: 0,          //当前地图,
       winN: [],           //杀死怪物次数
       states: {},         //状态
+      role: -1,           //任务
+      roles: [],          //任务进度
+      roleData: [],       //任务数据
     };
     def.useblood = def.blood;
-    def.exped = this.props.settings.exped[def.level];
-    def.roles = this.props.settings.role.map(() => 0);
+    def.exped = settings.exped[def.level];
+    def.roles = settings.role.map(() => 0);
+    def.roleData = settings.role.map(() => {});
     setPlayerValue(def);
     setSettingsValue({
       ADD_blood: 1
