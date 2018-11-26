@@ -1,6 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
-import {Col, Modal, Popover, Radio, Row, message} from 'antd';
+import {Col, Modal, Popover, Radio, Row, message, Progress} from 'antd';
 import _ from 'lodash';
 import {setPlayerValue} from "../../store/player-actions";
 
@@ -13,7 +13,15 @@ class UIPeopleBar extends React.Component {
     super(props);
     this.state = {
       id: -1,
+      hidden: false,
+      count: 0,
+      hiddenID: -1,
     };
+  }
+
+  componentWillUnmount() {
+    if (this.state.hiddenID >= 0)
+      clearTimeout(this.state.hiddenID);
   }
 
   onChange(e) {
@@ -35,6 +43,29 @@ class UIPeopleBar extends React.Component {
     });
   }
 
+  reloading() {
+    if (this.state.count < 100) {
+      this.setState({
+        count: this.state.count + 10,
+        hidden: true,
+        hiddenID: setTimeout(this.reloading.bind(this), 100),
+      });
+    } else {
+      this.setState({
+        hidden: false,
+        count: 0,
+        hiddenID: -1,
+      });
+    }
+  }
+
+  reload() {
+    this.setState({
+      hidden: true,
+      hiddenID: setTimeout(this.reloading.bind(this), 100),
+    });
+  }
+
   handleOk() {
     setPlayerValue({
       role: this.state.id
@@ -42,6 +73,7 @@ class UIPeopleBar extends React.Component {
     this.setState({
       visible: false,
     });
+    this.reload();
   }
 
   handleCancel() {
@@ -49,6 +81,7 @@ class UIPeopleBar extends React.Component {
       id: -1,
       visible: false,
     });
+    this.reload();
   }
 
   talk() {
@@ -99,9 +132,22 @@ class UIPeopleBar extends React.Component {
             NPC：
           </Col>
           <Col>
-            <RadioGroup onChange={this.onChange.bind(this)}>
-              {ids}
-            </RadioGroup>
+            {
+              this.state.hidden ? <Row>
+                  <Col span={8}>
+                    准备中...
+                  </Col>
+                  <Col span={8}>
+                    <Progress percent={this.state.count}
+                              status="active"
+                    />
+                  </Col>
+                </Row>
+                :
+                <RadioGroup onChange={this.onChange.bind(this)}>
+                  {ids}
+                </RadioGroup>
+            }
           </Col>
         </Row>
         {this.talk()}

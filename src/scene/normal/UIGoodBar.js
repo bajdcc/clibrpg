@@ -140,8 +140,16 @@ class UIGoodBar extends React.Component {
       )
     }).value();
     if (this.state.hidden) {
-      return <Row><Col><Progress percent={100 * this.state.count / this.state.all}
-                                 status="active"/></Col><br/><Col><Spin/>&emsp;准备中...</Col></Row>;
+      return <Row>
+        <Col>
+          <Progress percent={100 * this.state.count / this.state.all}
+                    status="active"/>
+        </Col>
+        <br/>
+        <Col>
+          <Spin/>&emsp;准备中...
+        </Col>
+      </Row>;
     }
     return (
       <Row>
