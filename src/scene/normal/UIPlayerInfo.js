@@ -5,6 +5,7 @@ import UIHealthBar from "./UIHealthBar";
 import UIExpBar from "./UIExpBar";
 import UIAttrBar from "./UIAttrBar";
 import UIStateBar from "./UIStateBar";
+import UITaskBar from "./UITaskBar";
 
 class UIPlayerInfo extends React.Component {
 
@@ -19,6 +20,7 @@ class UIPlayerInfo extends React.Component {
           <UIHealthBar/>
           <UIExpBar/>
           <UIStateBar/>
+          <UITaskBar/>
         </Card>
       </Col>
     );

@@ -55,14 +55,15 @@ class DefaultScene extends React.Component {
       maping: 0,          //当前地图,
       winN: [],           //杀死怪物次数
       states: {},         //状态
-      role: -1,           //任务
+      role: [],           //任务
       roles: [],          //任务进度
       roleData: [],       //任务数据
     };
     def.useblood = def.blood;
     def.exped = settings.exped[def.level];
+    def.role = settings.role.map(() => false);
     def.roles = settings.role.map(() => 0);
-    def.roleData = settings.role.map(() => {});
+    def.roleData = settings.role.map(() => null);
     setPlayerValue(def);
     setSettingsValue({
       ADD_blood: 1

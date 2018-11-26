@@ -18,6 +18,8 @@ class UIStateBar extends React.Component {
   componentWillUnmount() {
     if (this.state.goodID >= 0)
       clearTimeout(this.state.goodID);
+    if (this.state.checkingID >= 0)
+      clearTimeout(this.state.checkingID);
   }
 
   checkingTimeout() {
@@ -68,7 +70,7 @@ class UIStateBar extends React.Component {
     const percent = 100 * s.count / s.all;
     const info = (
       <div>
-        <Row><Col span={8}>进度：</Col><Col span={16}><Progress size="small" percent={percent} width={80}/></Col></Row>
+        <Row><Col span={8}>进度：</Col><Col span={16}><Progress size="small" percent={percent} width={80} showInfo={false}/></Col></Row>
         <Row><Col span={8}>类型：</Col><Col span={16}>{t}药水</Col></Row>
         <Row><Col span={8}>金钱：</Col><Col span={16}>{good[3]}</Col></Row>
         <Row><Col span={8}>效果：</Col><Col span={16}>{goodTimes(good[5])}增加{good[4]}{t}</Col></Row>

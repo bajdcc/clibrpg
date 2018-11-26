@@ -143,7 +143,8 @@ class UIGoodBar extends React.Component {
       return <Row>
         <Col>
           <Progress percent={100 * this.state.count / this.state.all}
-                    status="active"/>
+                    status="active"
+                    showInfo={false}/>
         </Col>
         <br/>
         <Col>

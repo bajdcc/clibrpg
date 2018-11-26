@@ -27,6 +27,14 @@ export function applyGoodEffect(player, good) {
   }
 }
 
+export function taskType(id) {
+  switch (id) {
+    case 0: return "打败怪物";
+    default: break;
+  }
+  return "task: unknown type";
+}
+
 export function randomN() {
   const rand = (Math.floor(Math.random() * 100));
   if (rand >= 0 && rand < 50) {

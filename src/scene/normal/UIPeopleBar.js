@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import {Col, Modal, Popover, Radio, Row, message, Progress} from 'antd';
 import _ from 'lodash';
 import {setPlayerValue} from "../../store/player-actions";
+import {taskType} from "./util";
 
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
@@ -27,7 +28,7 @@ class UIPeopleBar extends React.Component {
   onChange(e) {
     const id = e.target.value;
     const {role} = this.props.player;
-    if (role >= 0) {
+    if (role[id]) {
       message.error("你当前已有任务在身！");
       return null;
     }
@@ -66,7 +67,28 @@ class UIPeopleBar extends React.Component {
     });
   }
 
-  initTaskData(task) {
+  initTask0(task) {
+    return {
+      id: task[5][0],
+      all: task[5][1],
+      count: 0,
+    };
+  }
+
+  initTask(id, task) {
+    switch (task[0]) {
+      case 0: return this.initTask0(task);
+      default: break;
+    }
+    return null;
+  }
+
+  initTaskData(id, task) {
+    const {roleData} = this.props;
+    roleData[id] = this.initTask(id, task);
+    setPlayerValue({
+      roleData: roleData
+    });
   }
 
   handleTask() {
@@ -74,9 +96,11 @@ class UIPeopleBar extends React.Component {
     const r = this.props.role[id];
     const cur = this.props.player.roles[id];
     const task = r[cur];
+    const role = this.props.player.role;
+    role[id] = true;
     setPlayerValue({
-      role: id,
-      roleData: this.initTaskData(task)
+      role: role,
+      roleData: this.initTaskData(id, task)
     });
   }
 
@@ -96,14 +120,6 @@ class UIPeopleBar extends React.Component {
     this.reload();
   }
 
-  taskType(id) {
-    switch (id) {
-      case 0: return "打败怪物";
-      default: break;
-    }
-    return "task: unknown type";
-  }
-
   taskInfo0(task) {
     const [id, num] = task[5];
     const ani = this.props.animal[id];
@@ -120,9 +136,10 @@ class UIPeopleBar extends React.Component {
 
   talk() {
     if (this.state.id >= 0) {
-      const r = this.props.role[this.state.id];
-      const p = this.props.people[this.state.id];
-      const cur = this.props.player.roles[this.state.id];
+      const {role, people, player} = this.props;
+      const r = role[this.state.id];
+      const p = people[this.state.id];
+      const cur = player.roles[this.state.id];
       if (cur >= r.length) {
         message.warning("没有更多任务了！");
         return null;
@@ -143,7 +160,7 @@ class UIPeopleBar extends React.Component {
           <br/>
           <hr/>
           <p>
-            任务类型：<b>{this.taskType(task[0])}</b>
+            任务类型：<b>{taskType(task[0])}</b>
           </p>
           <p>
             任务目标：<b>{this.taskInfo(task)}</b>
@@ -187,6 +204,7 @@ class UIPeopleBar extends React.Component {
                   <Col span={8}>
                     <Progress percent={this.state.count}
                               status="active"
+                              showInfo={false}
                     />
                   </Col>
                 </Row>
@@ -207,6 +225,7 @@ export default connect((state, props) => {
   return {
     maping: state.player.maping,
     player: state.player,
+    roleData: state.player.roleData,
     map: state.settings.map,
     role: state.settings.role,
     animal: state.settings.animal,

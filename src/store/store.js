@@ -27,7 +27,7 @@ const data = {
     maping: 0,          //当前地图,
     winN: {},           //杀死怪物次数
     states: {},         //状态
-    role: -1,           //任务
+    role: [],           //任务
     roles: [],          //任务进度
     roleData: [],       //任务数据
   },
@@ -86,7 +86,7 @@ data.settings.people = [
 ];
 
 data.settings.role = [
-  // 任务类型，任务名称，任务内容，确定内容，拒绝内容，所抓怪物ID，怪物数量，完成内容，回复内容，加金钱，加经验
+  // 任务类型，任务名称，任务内容，确定内容，拒绝内容，[所抓怪物ID，怪物数量]，完成内容，回复内容，加金钱，加经验
   // 类型：0=怪物
   [
     [0, "帮村长抓白兔", "我很饿，麻烦你帮我抓三只白兔来。", "好吧。", "请你找别人吧，我很忙。", [0, 3], "谢啦，这下可以吃兔肉了……", "不用客气。", 20, 10],
@@ -119,8 +119,9 @@ for (let i = 1; i <= data.settings.Uplevel; i++) {
 
 data.player.useblood = data.player.blood;
 data.player.exped = data.settings.exped[data.player.level];
+data.player.role = data.settings.role.map(() => false);
 data.player.roles = data.settings.role.map(() => 0);
-data.player.roleData = data.settings.role.map(() => {});
+data.player.roleData = data.settings.role.map(() => null);
 
 const store = createStore(data);
 
