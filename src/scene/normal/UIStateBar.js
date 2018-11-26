@@ -1,7 +1,7 @@
 import React from "react";
 import {connect} from "react-redux";
 import _ from "lodash";
-import {Col, Row, Button, Popover, Progress} from "antd";
+import {Button, Col, Popover, Progress, Row} from "antd";
 import {applyGoodEffect, goodTimes, goodTypes} from "./util";
 import {setPlayerValue} from "../../store/player-actions";
 
@@ -78,7 +78,7 @@ class UIStateBar extends React.Component {
     );
     return (
       <Popover key={`state_${id}`} content={info} title={`状态 -- <${good[2]}>`}>
-        <Button>
+        <Button size={"small"}>
           {good[2]}
         </Button>
       </Popover>

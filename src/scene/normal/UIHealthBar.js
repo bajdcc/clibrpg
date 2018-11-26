@@ -1,6 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
-import {Row, Col, Progress, Popover} from 'antd';
+import {Col, Popover, Progress, Row} from 'antd';
 import {setPlayerValue} from "../../store/player-actions";
 
 class UIHealthBar extends React.Component {
@@ -49,7 +49,7 @@ class UIHealthBar extends React.Component {
           <Col span={18}>
             {
               active ?
-                <Progress percent={percent} showInfo={false} status="active"/>
+                <Progress percent={percent} showInfo={false} status={percent < 20 ? "exception" : "active"}/>
                 :
                 <Progress percent={percent} showInfo={false}/>
             }

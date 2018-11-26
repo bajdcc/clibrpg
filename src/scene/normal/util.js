@@ -53,3 +53,7 @@ export function randomN() {
     return 10;
   }
 }
+
+export function runN(id) {
+  return Math.floor(Math.random() * id) === 0;
+}
