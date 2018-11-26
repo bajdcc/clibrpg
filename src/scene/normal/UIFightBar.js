@@ -117,7 +117,7 @@ class UIAttrBar extends React.Component {
   }
 
   combatOver() {
-    const {player, animal} = this.props;
+    const {player, animal, winN} = this.props;
     const ani = animal[player.fightA];
     const money = ani[5] + Math.floor(randomN() / 2);
     const exp = ani[6] + Math.floor(randomN() / 2);
@@ -129,15 +129,22 @@ class UIAttrBar extends React.Component {
     message.success(logs[0]);
     this.addFightLog(0, logs[1]);
     message.success(logs[1]);
+    winN.push({
+      id: player.fightA,
+      count: 1,
+    });
+    setPlayerValue({
+      winN: winN,
+      money: player.money + money,
+      exping: player.exping + exp,
+    });
     setTimeout(() => {
       setPlayerValue({
         fightN: false,
         fightA: 0,
         fightL: [],
-        money: player.money + money,
-        exping: player.exping + exp,
       });
-    }, 4000);
+    }, 2000);
   }
 
   addFightLog(id, txt) {
@@ -171,5 +178,6 @@ export default connect((state, props) => {
   return {
     player: state.player,
     animal: state.settings.animal,
+    winN: state.player.winN,
   };
 })(UIAttrBar);

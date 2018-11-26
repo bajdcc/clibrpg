@@ -25,7 +25,7 @@ const data = {
     fightA: 0,          //怪物战斗编号
     fightL: [],         //战斗情况
     maping: 0,          //当前地图,
-    winN: {},           //杀死怪物次数
+    winN: [],           //杀死怪物列表
     states: {},         //状态
     role: [],           //任务
     roles: [],          //任务进度
@@ -121,7 +121,9 @@ data.player.useblood = data.player.blood;
 data.player.exped = data.settings.exped[data.player.level];
 data.player.role = data.settings.role.map(() => false);
 data.player.roles = data.settings.role.map(() => 0);
-data.player.roleData = data.settings.role.map(() => null);
+data.player.roleData = data.settings.role.map(() => {
+  return {type: -1}
+});
 
 const store = createStore(data);
 

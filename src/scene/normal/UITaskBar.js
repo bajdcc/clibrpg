@@ -1,8 +1,9 @@
 import React from "react";
 import {connect} from "react-redux";
 import _ from "lodash";
-import {Button, Col, Popover, Progress, Row} from "antd";
+import {Button, Col, message, Popover, Progress, Row} from "antd";
 import {taskType} from "./util";
+import {setPlayerValue} from "../../store/player-actions";
 
 class UITaskBar extends React.Component {
 
@@ -18,8 +19,63 @@ class UITaskBar extends React.Component {
       clearTimeout(this.state.checkingID);
   }
 
+  completeTask0(id) {
+    const {roleList, player, role, roles, money, exping} = this.props;
+    const r = roleList[id];
+    const cur = player.roles[id];
+    const task = r[cur];
+    const logs = [
+      `<${player.name}>完成了<${task[1]}>任务！`,
+      `<${player.name}>获得了<$${task[8]}金钱>和<${task[9]}经验>！`
+    ];
+    message.success(logs[0]);
+    message.success(logs[1]);
+    role[id] = false;
+    roles[id]++;
+    setPlayerValue({
+      money: money + task[8],
+      exping: exping + task[9],
+      role: role,
+      roles: roles
+    });
+  }
+
+  checkTask0Info(task) {
+    const {id, count} = task;
+    const {roleData} = this.props;
+    for (let i in roleData) {
+      const r = roleData[i];
+      if (r.type === 0 && r.id === id) {
+        roleData[i].count = count + r.count;
+        if (roleData[i].count >= r.all) {
+          roleData[i] = {type: -1};
+          this.completeTask0(i);
+          return;
+        }
+      }
+    }
+    setPlayerValue({
+      roleData: roleData
+    });
+  }
+
+  checkTask0() {
+    const {winN} = this.props;
+    if (winN.length > 0) {
+      _(winN).forEach(this.checkTask0Info.bind(this));
+      setTimeout(() => setPlayerValue({
+        winN: []
+      }), 0);
+    }
+  }
+
+  checkTask() {
+    this.checkTask0();
+  }
+
   checkingTimeout() {
     if (this.props.player.useblood > 0) {
+      this.checkTask();
       this.setState({
         checkingID: setTimeout(this.checkingTimeout.bind(this), 1000)
       });
@@ -34,21 +90,25 @@ class UITaskBar extends React.Component {
 
   taskTarget(task) {
     switch (task[0]) {
-      case 0: return this.taskTarget0(task);
-      default: break;
+      case 0:
+        return this.taskTarget0(task);
+      default:
+        break;
     }
     return "task: unknown target";
   }
 
-  taskProgress0(roleData, task) {
-    const {all, count} = roleData;
-    return 100 * count / all;
+  taskProgress0(role, task) {
+    const {all, count} = role;
+    return Math.floor(100 * count / all);
   }
 
-  taskProgress(roleData, task) {
+  taskProgress(role, task) {
     switch (task[0]) {
-      case 0: return this.taskProgress0(task);
-      default: break;
+      case 0:
+        return this.taskProgress0(role, task);
+      default:
+        break;
     }
     return "task: unknown progress";
   }
@@ -56,14 +116,14 @@ class UITaskBar extends React.Component {
   taskInfo0(id, cur, task) {
     const {people, roleData} = this.props;
     const peo = people[id];
-    const percent = this.taskProgress(roleData, task);
+    const percent = this.taskProgress(roleData[id], task);
     const info = (
       <div>
         <Row><Col span={8}>人物：</Col><Col span={16}><b>{peo[1]} - {peo[2]}</b></Col></Row>
         <Row><Col span={8}>类型：</Col><Col span={16}><b>{taskType(task[0])}</b></Col></Row>
         <Row><Col span={8}>目标：</Col><Col span={16}><b>{this.taskTarget(task)}</b></Col></Row>
-        <Row><Col span={8}>奖励：</Col><Col span={16}><b>&lt;${task[8]}&gt;金钱</b>和<b>&lt;{task[9]}&gt;经验</b></Col></Row>
-        <Row><Col span={8}>进度：</Col><Col span={16}><Progress size="small" percent={percent} showInfo={false}/></Col></Row>
+        <Row><Col span={8}>奖励：</Col><Col span={16}><b>&lt;${task[8]}&gt;金钱</b><br/><b>&lt;{task[9]}&gt;经验</b></Col></Row>
+        <Row><Col span={8}>进度：</Col><Col span={16}><Progress type="circle" size="small" percent={percent} width={40}/></Col></Row>
       </div>
     );
     return (
@@ -81,8 +141,10 @@ class UITaskBar extends React.Component {
     const cur = player.roles[id];
     const task = r[cur];
     switch (task[0]) {
-      case 0: return this.taskInfo0(id, cur, task);
-      default: break;
+      case 0:
+        return this.taskInfo0(id, cur, task);
+      default:
+        break;
     }
     return "task: unknown type";
   }
@@ -117,6 +179,9 @@ class UITaskBar extends React.Component {
 export default connect((state, props) => {
   return {
     player: state.player,
+    money: state.player.money,
+    exping: state.player.exping,
+    winN: state.player.winN,
     role: state.player.role,
     roles: state.player.roles,
     roleData: state.player.roleData,

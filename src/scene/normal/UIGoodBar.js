@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {Col, message, Popover, Radio, Row, Spin, Progress} from 'antd';
 import _ from 'lodash';
 import {setPlayerValue} from "../../store/player-actions";
-import {goodTimes, goodTypes} from "./util";
+import {applyGoodEffect, goodTimes, goodTypes} from "./util";
 
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
@@ -93,6 +93,7 @@ class UIGoodBar extends React.Component {
       this.setState({
         goodID: setTimeout(this.rec1.bind(this), 100)
       });
+      applyGoodEffect(this.props.player, good);
       message.success(`${goodTypes(good[1])}增加${good[4]}！`);
     } else {
       this.setState({

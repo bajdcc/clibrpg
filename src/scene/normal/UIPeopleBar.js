@@ -69,6 +69,7 @@ class UIPeopleBar extends React.Component {
 
   initTask0(task) {
     return {
+      type: 0,
       id: task[5][0],
       all: task[5][1],
       count: 0,
@@ -86,9 +87,7 @@ class UIPeopleBar extends React.Component {
   initTaskData(id, task) {
     const {roleData} = this.props;
     roleData[id] = this.initTask(id, task);
-    setPlayerValue({
-      roleData: roleData
-    });
+    return roleData;
   }
 
   handleTask() {

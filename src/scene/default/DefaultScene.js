@@ -63,7 +63,9 @@ class DefaultScene extends React.Component {
     def.exped = settings.exped[def.level];
     def.role = settings.role.map(() => false);
     def.roles = settings.role.map(() => 0);
-    def.roleData = settings.role.map(() => null);
+    def.roleData = settings.role.map(() => {
+      return {type: -1}
+    });
     setPlayerValue(def);
     setSettingsValue({
       ADD_blood: 1
