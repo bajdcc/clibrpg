@@ -1,8 +1,10 @@
 # clibrpg (2D RPG Game with React)
 
-做一个简单的RPG小游戏。
+做一个简单的佛系网页RPG小游戏。
 
 ## 介绍
+
+[在线玩耍传送门](https://bajdcc.github.io)，[B站视频传送门](https://www.bilibili.com/video/av36852195)。
 
 使用技术：React、Ant Design、PixiJS（计划）。
 

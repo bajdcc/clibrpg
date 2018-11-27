@@ -71,7 +71,7 @@ class DefaultScene extends React.Component {
       ADD_blood: 1
     });
     setGlobalValue({
-      scene: "normal"
+      scene: "intro"
     });
   }
 
