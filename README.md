@@ -1,5 +1,7 @@
 # clibrpg (2D RPG Game with React)
 
+[![Build status](https://ci.appveyor.com/api/projects/status/ha7aboahh0ykkjln?svg=true)](https://ci.appveyor.com/project/bajdcc/clibrpg)
+
 做一个简单的佛系网页RPG小游戏。
 
 ## 介绍
