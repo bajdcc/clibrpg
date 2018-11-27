@@ -1,0 +1,43 @@
+version: 1.0.{build}.{branch}
+image: Visual Studio 2017
+configuration: Release
+platform: x64
+
+environment:
+  matrix:
+    - nodejs_version: '10'
+    - nodejs_version: '9'
+    - nodejs_version: '8'
+    - nodejs_version: '7'
+    - nodejs_version: '6'
+    - nodejs_version: '5'
+    - nodejs_version: '4'
+
+branches:
+  only:
+    - master
+
+install:
+  - ps: Install-Product node $env:nodejs_version
+  - set PATH=%APPDATA%\npm;%PATH%
+  - node --version
+  - npm --version
+  - npm run ci-or-install
+
+before_build:
+  - set PATH=%QTDIR%\bin;%PATH%
+
+artifacts:
+- path: build
+  name: build
+
+matrix:
+  fast_finish: false
+
+on_failure:
+  - echo Failed
+
+build: off
+
+test_script:
+  - npm test -- --no-watchman
