@@ -39,7 +39,7 @@ class UIHealthBar extends React.Component {
     const {blood, useblood} = this.props;
     const percent = 100 * useblood / blood;
     const active = useblood < blood;
-    const info = `${useblood}/${blood}`;
+    const info = `${Math.floor(useblood)}/${blood}`;
     return (
       <Popover content={info} title="生命">
         <Row>

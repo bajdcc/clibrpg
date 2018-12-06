@@ -31,7 +31,7 @@ class UIExpBar extends React.Component {
         blood: player.blood + ADD_life,
         att: player.att + ADD_att,
         def: player.def + ADD_def,
-        exping: exping - exped,
+        exping: Math.floor(exping - exped),
         exped: Exped[player.level],
       });
       message.success(`<${player.name}>升到了<${player.level + 1}>级！`);
@@ -44,7 +44,7 @@ class UIExpBar extends React.Component {
   render() {
     const {exping, exped} = this.props;
     const percent = 100 * exping / exped;
-    const info = `${exping}/${exped}`;
+    const info = `${Math.floor(exping)}/${exped}`;
     return (
       <Popover content={info} title="经验">
         <Row>

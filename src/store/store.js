@@ -16,7 +16,7 @@ const data = {
     level: 1,           //等级
     exping: 0,          //当前经验
     exped: 0,           //当前经验上限
-    money: 0,           //金钱
+    money: 1000,           //金钱
     blood: 100,         //生命值上限
     useblood: 0,        //生命值
     att: 6,             //攻击

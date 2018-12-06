@@ -24,6 +24,10 @@ export function applyGoodEffect(player, good) {
     setPlayerValue({
       useblood: _.min([player.blood, player.useblood + good[4] / good[5]])
     });
+  } else if (good[1] === 1) {
+    setPlayerValue({
+      exping: player.exping + good[4] / good[5]
+    });
   }
 }
 

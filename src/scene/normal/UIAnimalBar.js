@@ -78,8 +78,7 @@ class UIAnimalBar extends React.Component {
                <Button key="submit" type="primary" onClick={this.handleAnimalEditorOk.bind(this)}>
                  确定
                </Button>
-             ]}
-      >
+             ]}>
         <div>
           <Row>
             <Col span={4}>名称：</Col>

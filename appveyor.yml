@@ -16,13 +16,14 @@ install:
   - set PATH=%APPDATA%\npm;%PATH%
   - node --version
   - npm --version
-  - npm install
+  - npm install yarn -g
+  - yarn install
 
 before_build:
   - set PATH=%QTDIR%\bin;%PATH%
 
 build_script:
-  - npm run build
+  - yarn run build
 
 artifacts:
   - path: build
@@ -35,4 +36,4 @@ on_failure:
   - echo Failed
 
 test_script:
-  - npm test -- --no-watchman
+  - yarn test -- --no-watchman
